@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jst Trading Journal</title>
+<meta name="description" content="Jst (@jst1murs): a 16-year-old Solana memecoin trader. Receipts, rules and posts in one place.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,900&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<style>
+/* Layout: an observatory notebook on paper. Sticky hairline header, hero text left with his picture bleeding in on the right,
+   numbered sections in ruled bands, one dark "inbox" band. Light only, by choice (it follows idols.world). */
+:root {
+  --paper: #f3efe8;
+  --card: #f8f5ef;
+  --ink: #141413;
+  --muted: #6e6a63;
+  --line: #d8d2c7;
+  --night: #0e0f11;
+  --night-card: #16171a;
+  --night-line: #2a2b30;
+  --night-muted: #8b8c92;
+  --up: #2bd6a2;
+  --down: #ef6b78;
+  --f-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --f-body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --f-mark: "Archivo", "Arial Black", Impact, sans-serif;
+  --gut: max(clamp(16px, 3vw, 44px), env(safe-area-inset-left, 0px));
+  --gut-r: max(clamp(16px, 3vw, 44px), env(safe-area-inset-right, 0px));
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+body { background: var(--paper); color: var(--ink); font: 400 15px/1.55 var(--f-body); -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.wrap { max-width: 1440px; margin: 0 auto; padding-left: var(--gut); padding-right: var(--gut-r); }
+.mono { font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+.muted { color: var(--muted); }
+
+/* header */
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--paper); border-bottom: 1px solid var(--line); }
+header.top .wrap { display: flex; align-items: stretch; min-height: 58px; gap: 24px; }
+.mark { display: flex; align-items: center; padding-right: 28px; border-right: 1px solid var(--line); font: 900 22px/1 var(--f-mark); font-stretch: 125%; letter-spacing: -.02em; text-decoration: none; }
+nav.links { display: flex; align-items: center; gap: clamp(18px, 3vw, 44px); padding-left: 12px; }
+nav.links a { text-decoration: none; font-family: var(--f-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
+nav.links a:hover { text-decoration: underline; text-underline-offset: 5px; }
+.top-right { margin-left: auto; display: flex; align-items: center; gap: 22px; }
+.live { display: flex; align-items: center; gap: 10px; line-height: 1.35; font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; }
+.live i { width: 12px; height: 12px; border: 1.5px solid var(--ink); border-radius: 50%; display: block; position: relative; }
+.live i::after { content: ""; position: absolute; inset: 2.5px; border-radius: 50%; background: var(--up); }
+.btn { display: inline-flex; align-items: center; gap: 14px; height: 46px; padding: 0 24px; font-family: var(--f-mono); font-size: 12px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--ink); white-space: nowrap; }
+.btn.solid { background: var(--ink); color: var(--paper); }
+.btn.solid:hover { background: #2b2b29; }
+.btn.ghost:hover { background: var(--card); }
+.btn.small { height: 32px; padding: 0 18px; font-size: 11px; }
+.btn .arr { font-family: var(--f-body); letter-spacing: 0; }
+
+/* hero */
+.hero { border-bottom: 1px solid var(--line); overflow: hidden; }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr) minmax(150px, 2fr); gap: 24px; position: relative; }
+.hero-copy { padding-block: 40px 52px; position: relative; z-index: 2; min-width: 0; }
+.eyebrow { display: flex; align-items: center; gap: 0; font-family: var(--f-mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; }
+.eyebrow span:first-child { width: 66px; }
+.eyebrow .sep { margin-left: 12px; padding-left: 12px; border-left: 1px solid var(--line); color: #a39d92; }
+h1 { font: 400 clamp(44px, 5.4vw, 76px)/.98 var(--f-display); letter-spacing: -.028em; margin: 34px 0 26px; padding-left: clamp(0px, 3vw, 44px); text-wrap: balance; max-width: 9.5em; }
+.lede { font-size: 16px; line-height: 1.6; max-width: 31em; padding-left: clamp(0px, 3vw, 44px); margin: 0 0 32px; }
+.ctas { display: flex; flex-wrap: wrap; gap: 12px; padding-left: clamp(0px, 3vw, 44px); }
+.fine { padding-left: clamp(0px, 3vw, 44px); margin: 22px 0 0; font-size: 13.5px; color: var(--muted); }
+.fine a { color: var(--ink); text-underline-offset: 4px; }
+.hero-art { position: relative; min-height: 460px; margin-left: -12%; }
+.hero-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 62% 30%; filter: grayscale(1) contrast(1.08) brightness(1.04); mix-blend-mode: multiply;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 26%, #000 82%, transparent 100%), linear-gradient(to bottom, #000 70%, transparent 100%); -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 0%, #000 26%, #000 82%, transparent 100%), linear-gradient(to bottom, #000 70%, transparent 100%); mask-composite: intersect; }
+.hero-side { padding-block: 48px; display: flex; flex-direction: column; gap: 30px; font-family: var(--f-mono); font-size: 10.5px; line-height: 1.55; letter-spacing: .12em; text-transform: uppercase; color: #5a5650; position: relative; z-index: 2; }
+.hero-side dl { margin: 0; display: grid; gap: 2px; }
+.hero-side dt { display: inline; color: var(--ink); }
+.hero-side dd { display: inline; margin: 0; }
+.hero-side .row { display: block; }
+
+/* section heads */
+section.band { border-bottom: 1px solid var(--line); padding-block: 36px 44px; }
+.shead { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 24px; margin-bottom: 22px; }
+.shead .num { font-family: var(--f-mono); font-size: 12px; color: #a39d92; width: 16px; }
+.shead h2 { font: 500 15px/1 var(--f-body); letter-spacing: .06em; text-transform: uppercase; margin: 0; }
+.shead p { margin: 0; font-size: 13.5px; color: var(--muted); }
+.shead .all { margin-left: auto; font-family: var(--f-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; text-underline-offset: 5px; }
+
+/* receipts */
+.receipts { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
+.rc { background: var(--card); border: 1px solid var(--line); display: flex; flex-direction: column; text-decoration: none; min-width: 0; transition: border-color .2s; }
+.rc:hover { border-color: #a9a297; }
+.rc .shot { aspect-ratio: 215 / 100; background: #111; overflow: hidden; border-bottom: 1px solid var(--line); position: relative; max-width: 100%; }
+.rc .shot img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1) contrast(1.1); transition: filter .35s, transform .6s; }
+.rc:hover .shot img { filter: none; transform: scale(1.03); }
+.rc .shot.fig { display: grid; place-items: center; color: #f1eee8; }
+.rc .shot.fig b { font: 400 clamp(26px, 2.6vw, 38px)/1 var(--f-display); letter-spacing: -.02em; }
+.rc .shot.fig b small { font-size: .5em; letter-spacing: 0; margin-left: 4px; color: #b7b2a9; }
+.rc .shot.wait { background: repeating-linear-gradient(135deg, #e9e4da 0 8px, #efebe3 8px 16px); }
+.rc .body { padding: 18px 18px 16px; display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 0 10px; flex: 1; }
+.rc .idx { font-family: var(--f-mono); font-size: 12px; color: #a39d92; padding-top: 3px; }
+.rc .meta { display: flex; justify-content: space-between; gap: 8px; font-family: var(--f-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: #5a5650; }
+.rc .meta span:last-child { color: #a39d92; }
+.rc h3 { font: 400 19px/1.18 var(--f-display); letter-spacing: -.01em; margin: 10px 0 20px; text-wrap: balance; }
+.rc .foot { grid-column: 2; margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 12.5px; color: var(--muted); }
+.go { width: 28px; height: 28px; flex: none; border: 1px solid var(--ink); border-radius: 50%; display: grid; place-items: center; font-size: 14px; color: var(--ink); }
+.pnl { font-family: var(--f-mono); font-size: 11.5px; color: #11895f; letter-spacing: .02em; }
+
+/* rules */
+.rules { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)) minmax(0, 1.25fr); gap: 14px; }
+.rule { background: var(--card); border: 1px solid var(--line); display: flex; flex-direction: column; min-width: 0; text-decoration: none; }
+.rule .tile { aspect-ratio: 4 / 2.7; position: relative; overflow: hidden; background: var(--tint); max-width: 100%; }
+.rule .tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.35) brightness(1.05); mix-blend-mode: multiply; transform: scale(var(--z, 1.6)); transform-origin: var(--o, 60% 25%); transition: transform .8s; }
+.rule:hover .tile img { transform: scale(calc(var(--z, 1.6) * 1.06)); }
+.rule .tile q { position: absolute; left: 14px; right: 14px; bottom: 12px; font: italic 400 15px/1.25 var(--f-display); color: #fff; quotes: none; text-shadow: 0 1px 12px rgba(0,0,0,.45); }
+.rule .body { padding: 16px 16px 14px; display: grid; gap: 4px; }
+.rule h3 { margin: 0; font: 500 14px/1.2 var(--f-body); letter-spacing: .08em; text-transform: uppercase; }
+.rule .kw { font-size: 13px; color: var(--muted); }
+.rule .foot { margin-top: 14px; display: flex; align-items: center; justify-content: space-between; font-family: var(--f-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: #8d877d; }
+.rule .go { width: 24px; height: 24px; font-size: 12px; }
+.count { background: var(--card); border: 1px solid var(--line); padding: 20px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; min-width: 0; }
+.count b { display: block; font: 400 44px/1 var(--f-display); letter-spacing: -.02em; }
+.count .lbl { margin-top: 8px; }
+.count p { font-size: 13px; color: var(--muted); margin: 14px 0 18px; max-width: 16em; }
+.count .avs { display: grid; grid-template-columns: repeat(4, 22px); gap: 4px; align-content: start; }
+.count .avs span { width: 22px; height: 22px; background: var(--tint); overflow: hidden; position: relative; }
+.count .avs span img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 25%; filter: grayscale(1) contrast(1.3); mix-blend-mode: multiply; }
+
+/* inbox (dark band) */
+.night { background: var(--night); color: #ecebe8; padding-block: 34px 40px; }
+.night .shead h2 { color: #f2f1ee; }
+.night .shead p, .night .shead .num { color: var(--night-muted); }
+.night .shead .all { color: #f2f1ee; }
+.inbox { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1.15fr) minmax(0, 1.05fr) minmax(0, 1fr); gap: 14px; }
+.ncard { background: var(--night-card); border: 1px solid var(--night-line); padding: 22px; min-width: 0; }
+.ncard .mono { color: var(--night-muted); font-size: 10px; }
+.ncard .mono .dot { display: inline-block; width: 6px; height: 6px; background: var(--up); border-radius: 50%; margin-right: 8px; vertical-align: 1px; }
+.ncard h3 { font: 500 clamp(22px, 2vw, 27px)/1.15 var(--f-body); letter-spacing: -.01em; margin: 24px 0 26px; color: #f6f5f2; text-wrap: balance; }
+.bars { display: flex; align-items: flex-end; gap: 3px; height: 72px; }
+.bars i { flex: 1; background: #d9d7d2; min-height: 2px; display: block; border-radius: 1px; }
+.bars i.hi { background: var(--up); }
+.bars-cap { display: flex; justify-content: space-between; margin-top: 10px; }
+.ncard .total { margin-top: 26px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding-top: 16px; border-top: 1px solid var(--night-line); }
+.ncard .total b { font: 400 30px/1 var(--f-display); color: #f6f5f2; letter-spacing: -.01em; }
+.dms { display: grid; gap: 8px; align-content: start; }
+.dm { background: #1f2024; border: 1px solid var(--night-line); border-radius: 14px 14px 14px 4px; padding: 10px 14px; font-size: 13.5px; line-height: 1.35; color: #e6e5e1; width: fit-content; max-width: 100%; }
+.dm small { display: block; margin-top: 3px; font-family: var(--f-mono); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--night-muted); }
+.split { display: grid; gap: 14px; margin-top: 18px; }
+.split .opt { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 4px 10px; align-items: center; }
+.split .opt > b { width: 22px; height: 22px; border: 1px solid #55565c; border-radius: 50%; display: grid; place-items: center; font: 500 10px/1 var(--f-mono); color: #d0cfcb; }
+.split .meter { height: 10px; background: #26272b; position: relative; }
+.split .meter i { position: absolute; inset: 0 auto 0 0; background: #cfcdc8; }
+.split .pct { font-family: var(--f-mono); font-size: 11px; color: #d0cfcb; }
+.split .what { grid-column: 2 / 4; font-size: 12px; color: var(--night-muted); }
+.split-foot { margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--night-line); }
+.spoke { padding: 0; display: grid; grid-template-rows: auto 1fr; overflow: hidden; }
+.spoke .pic { aspect-ratio: 16 / 10; background: #b8202f; position: relative; overflow: hidden; max-width: 100%; }
+.spoke .pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 62% 20%; filter: grayscale(1) contrast(1.35); mix-blend-mode: multiply; }
+.spoke .txt { padding: 18px 20px 20px; background: #34363b; display: flex; flex-direction: column; gap: 10px; }
+.spoke .who { font: 600 17px/1.1 var(--f-body); color: #fff; }
+.spoke .who span { font: 400 12px var(--f-mono); color: var(--night-muted); margin-left: 6px; }
+.spoke blockquote { margin: 0; font-size: 14px; line-height: 1.45; color: #ecebe8; }
+.spoke .btn { margin-top: auto; align-self: flex-start; border-color: #8b8c92; color: #fff; }
+.spoke .btn:hover { background: #45474d; }
+
+/* posts */
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+.tabs button { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; padding: 8px 12px; border: 1px solid transparent; background: none; color: var(--ink); cursor: pointer; }
+.tabs button:hover { border-color: var(--line); }
+.tabs button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.posts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.post { background: var(--card); border: 1px solid var(--line); padding: 16px; display: grid; grid-template-columns: 96px minmax(0, 1fr) auto; gap: 18px; align-items: stretch; text-decoration: none; min-width: 0; }
+.post:hover { border-color: #a9a297; }
+.post .thumb { background: #1a1a1a; overflow: hidden; aspect-ratio: 96 / 82; align-self: start; max-width: 100%; display: grid; place-items: center; }
+.post .thumb img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.1); }
+.post .thumb.txt { background: #e9e4da; font: 400 30px/1 var(--f-display); color: #8d877d; }
+.post .thumb.vid { color: #f1eee8; font-family: var(--f-mono); font-size: 10px; letter-spacing: .14em; }
+.post .meta { display: flex; align-items: center; gap: 10px; font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; }
+.tag { display: inline-flex; align-items: center; gap: 6px; padding: 3px 8px; border: 1px solid var(--line); border-radius: 999px; font-size: 9.5px; }
+.tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--c, #888); }
+.post h3 { font: 400 20px/1.22 var(--f-display); letter-spacing: -.01em; margin: 10px 0 8px; text-wrap: pretty; white-space: pre-line; }
+.post .sub { font-size: 12.5px; color: var(--muted); margin: 0 0 12px; }
+.post .stats { font-family: var(--f-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: #8d877d; }
+.post .end { display: flex; align-items: flex-end; }
+.empty { grid-column: 1 / -1; padding: 30px; border: 1px dashed var(--line); text-align: center; color: var(--muted); }
+
+/* footer */
+footer { padding-block: 34px 60px; }
+footer .row1 { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; padding-bottom: 26px; }
+footer .mark { border: 0; padding: 0; font-size: 19px; }
+footer .tagline { padding-left: 16px; border-left: 1px solid var(--line); }
+footer nav { margin-left: auto; display: flex; flex-wrap: wrap; gap: 14px 26px; }
+footer nav a { font-family: var(--f-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; text-decoration: none; }
+footer nav a:hover { text-decoration: underline; text-underline-offset: 5px; }
+footer p { max-width: 58em; font-size: 12.5px; color: var(--muted); margin: 0; }
+
+/* responsive */
+@media (max-width: 1200px) {
+  .receipts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .rules { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .inbox { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero .wrap { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .hero-side { display: none; }
+}
+@media (max-width: 900px) {
+  nav.links, .live { display: none; }
+  .mark { border-right: 0; }
+  .hero .wrap { grid-template-columns: minmax(0, 1fr); }
+  .hero-copy { padding-bottom: 8px; }
+  .hero-art { margin: 0 calc(-1 * var(--gut-r)) 0 calc(-1 * var(--gut)); min-height: 0; aspect-ratio: 1024 / 640; max-width: none; }
+  .posts { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 620px) {
+  .receipts, .rules { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rules .count { grid-column: 1 / -1; }
+  .inbox { grid-template-columns: minmax(0, 1fr); }
+  .rc .body { grid-template-columns: minmax(0, 1fr); }
+  .rc .idx { display: none; }
+  .rc .foot { grid-column: 1; }
+  .rc h3 { font-size: 17px; }
+  .post { grid-template-columns: 64px minmax(0, 1fr); gap: 14px; }
+  .post .end { display: none; }
+  .shead .all { margin-left: 0; }
+  footer nav { margin-left: 0; }
+}
+@media (max-width: 420px) {
+  .receipts { grid-template-columns: minmax(0, 1fr); }
+  .ctas .btn { flex: 1; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="#top" aria-label="Jst, back to top">JST</a>
+    <nav class="links" aria-label="Sections">
+      <a href="#receipts">Receipts</a>
+      <a href="#rules">Rules</a>
+      <a href="#inbox">Inbox</a>
+      <a href="#posts">Posts</a>
+    </nav>
+    <div class="top-right">
+      <div class="live"><i aria-hidden="true"></i><span>1,859 followers<br>2,160 posts</span></div>
+      <a class="btn solid small" href="https://x.com/jst1murs" target="_blank" rel="noopener">Follow on X</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <div class="eyebrow"><span>The</span><span>Trading journal</span><span class="sep">// Solana</span></div>
+        <h1>Sixteen, on chain, still not satisfied.</h1>
+        <p class="lede">Jst trades Solana memecoins in the trenches. September closed at +535 SOL. October passed six figures. Seven figures at 16 is next.</p>
+        <div class="ctas">
+          <a class="btn solid" href="#receipts">See the receipts <span class="arr">&rarr;</span></a>
+          <a class="btn ghost" href="https://x.com/jst1murs" target="_blank" rel="noopener">@jst1murs</a>
+        </div>
+        <p class="fine">Every number here comes from a screenshot he posted. <a href="#posts">Read the posts</a></p>
+      </div>
+      <div class="hero-art" aria-hidden="true"><img src="img/jst.jpg" alt=""></div>
+      <aside class="hero-side" aria-label="At a glance">
+        <div>Memecoins<br>Solana<br>In public</div>
+        <dl>
+          <span class="row"><dt>+535.8 SOL</dt> <dd>September</dd></span>
+          <span class="row"><dt>~$65K</dt> <dd>September</dd></span>
+          <span class="row"><dt>6 figs</dt> <dd>Oct 21</dd></span>
+          <span class="row"><dt>7 figs</dt> <dd>Next</dd></span>
+          <span class="row"><dt>16</dt> <dd>Years old</dd></span>
+          <span class="row"><dt>Not</dt> <dd>Satisfied</dd></span>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <section class="band" id="receipts">
+    <div class="wrap">
+      <div class="shead">
+        <span class="num">02</span><h2>Receipts</h2><p>PnL cards and charts he posted, newest first.</p>
+        <a class="all" href="https://x.com/jst1murs/media" target="_blank" rel="noopener">All media &rarr;</a>
+      </div>
+      <div class="receipts">
+        <a class="rc" href="https://x.com/jst1murs/status/2110893430297464939" target="_blank" rel="noopener">
+          <div class="shot fig"><b>+601.1<small>SOL</small></b></div>
+          <div class="body"><span class="idx">01</span><div>
+            <div class="meta"><span>HODL</span><span>Oct 16</span></div>
+            <h3>"nice pt.2": +4,519% on one coin</h3></div>
+            <div class="foot"><span>9,983 views</span><span class="go" aria-hidden="true">&rarr;</span></div>
+          </div>
+        </a>
+        <a class="rc" href="https://x.com/jst1murs/status/2107171835590697366" target="_blank" rel="noopener">
+          <div class="shot"><img src="img/r-hodl.jpg" alt="Axiom chart of HODL showing +99.97 SOL, +2,505%" loading="lazy"></div>
+          <div class="body"><span class="idx">02</span><div>
+            <div class="meta"><span>HODL</span><span>Oct 5</span></div>
+            <h3>+99.97 SOL, +2,505% on the first run</h3></div>
+            <div class="foot"><span>19,305 views</span><span class="go" aria-hidden="true">&rarr;</span></div>
+          </div>
+        </a>
+        <a class="rc" href="https://x.com/jst1murs/status/2107222406548881917" target="_blank" rel="noopener">
+          <div class="shot"><img src="img/r-day.png" alt="Axiom 1D realized PnL card: +60.8 SOL, +14%, 50 wallets" loading="lazy" style="object-position:0 30%"></div>
+          <div class="body"><span class="idx">03</span><div>
+            <div class="meta"><span>1 day</span><span>Oct 5</span></div>
+            <h3>+60.8 SOL realised in a day. Not satisfied.</h3></div>
+            <div class="foot"><span>5,381 views</span><span class="go" aria-hidden="true">&rarr;</span></div>
+          </div>
+        </a>
+        <a class="rc" href="https://x.com/jst1murs/status/2105416525024989503" target="_blank" rel="noopener">
+          <div class="shot"><img src="img/r-september.png" alt="Monthly PnL card: +535.8 SOL, +95%" loading="lazy" style="object-position:0 40%"></div>
+          <div class="body"><span class="idx">04</span><div>
+            <div class="meta"><span>Month</span><span>Sep 30</span></div>
+            <h3>+535 SOL for September, about $65K, at 16</h3></div>
+            <div class="foot"><span>3,281 views</span><span class="go" aria-hidden="true">&rarr;</span></div>
+          </div>
+        </a>
+        <a class="rc" href="https://x.com/jst1murs/status/2105445207462293579" target="_blank" rel="noopener">
+          <div class="shot"><img src="img/r-prls.png" alt="PRLS chart with the trade panel: bought 1.999, sold 4.293, +115%" loading="lazy" style="object-position:50% 70%"></div>
+          <div class="body"><span class="idx">05</span><div>
+            <div class="meta"><span>PRLS</span><span>Sep 30</span></div>
+            <h3>In at 1.999, out at 4.293: +115%</h3></div>
+            <div class="foot"><span>10,002 views</span><span class="go" aria-hidden="true">&rarr;</span></div>
+          </div>
+        </a>
+        <a class="rc" href="https://x.com/jst1murs/status/2113013705252442160" target="_blank" rel="noopener">
+          <div class="shot wait"></div>
+          <div class="body"><span class="idx">06</span><div>
+            <div class="meta"><span>Target</span><span>Next</span></div>
+            <h3>Seven figures, before seventeen</h3></div>
+            <div class="foot"><span>Waiting for the card</span><span class="go" aria-hidden="true">&rarr;</span></div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="rules">
+    <div class="wrap">
+      <div class="shead">
+        <span class="num">03</span><h2>The rules</h2><p>How he talks about the work, in his own posts.</p>
+      </div>
+      <div class="rules">
+        <a class="rule" href="https://x.com/jst1murs/status/2105665171373142278" target="_blank" rel="noopener">
+          <div class="tile" style="--tint:#b48a1c;--z:1.7;--o:58% 18%"><img src="img/jst.jpg" alt=""><q>jokes are over</q></div>
+          <div class="body"><h3>Lock in</h3><span class="kw">Focus · Discipline · No jokes</span>
+            <div class="foot"><span>Oct 1</span><span class="go" aria-hidden="true">&rarr;</span></div></div>
+        </a>
+        <a class="rule" href="https://x.com/jst1murs/status/2104288606906917133" target="_blank" rel="noopener">
+          <div class="tile" style="--tint:#7d4fc2;--z:2.1;--o:52% 10%"><img src="img/jst.jpg" alt=""><q>i still need to do better</q></div>
+          <div class="body"><h3>Do better</h3><span class="kw">Hunger · Standards · Never enough</span>
+            <div class="foot"><span>Sep 27</span><span class="go" aria-hidden="true">&rarr;</span></div></div>
+        </a>
+        <a class="rule" href="https://x.com/jst1murs/status/2105635103229555119" target="_blank" rel="noopener">
+          <div class="tile" style="--tint:#2c8f72;--z:1.5;--o:70% 40%"><img src="img/jst.jpg" alt=""><q>new month new blessings</q></div>
+          <div class="body"><h3>New month</h3><span class="kw">Reset · Start again · Go</span>
+            <div class="foot"><span>Oct 1</span><span class="go" aria-hidden="true">&rarr;</span></div></div>
+        </a>
+        <a class="rule" href="https://x.com/jst1murs/status/2105416525024989503" target="_blank" rel="noopener">
+          <div class="tile" style="--tint:#a32233;--z:1.9;--o:62% 60%"><img src="img/jst.jpg" alt=""><q>alhamdulillah for everything</q></div>
+          <div class="body"><h3>Gratitude</h3><span class="kw">Faith · Thanks · More to come</span>
+            <div class="foot"><span>Sep 30</span><span class="go" aria-hidden="true">&rarr;</span></div></div>
+        </a>
+        <a class="rule" href="https://x.com/jst1murs/status/2113013705252442160" target="_blank" rel="noopener">
+          <div class="tile" style="--tint:#2a49c9;--z:1.35;--o:64% 28%"><img src="img/jst.jpg" alt=""><q>7figs at 16 next</q></div>
+          <div class="body"><h3>Seven</h3><span class="kw">Target · Age · Clock</span>
+            <div class="foot"><span>Oct 21</span><span class="go" aria-hidden="true">&rarr;</span></div></div>
+        </a>
+        <div class="count">
+          <div>
+            <b>2,160</b>
+            <div class="mono lbl">Posts since Jan 2022</div>
+            <p>Almost four years of posting from the trenches, 178 of them with pictures.</p>
+            <a class="mono" href="https://x.com/jst1murs" target="_blank" rel="noopener" style="text-underline-offset:5px">Read them all &rarr;</a>
+          </div>
+          <div class="avs" aria-hidden="true">
+            <span style="--tint:#b48a1c"><img src="img/jst.jpg" alt=""></span><span style="--tint:#7d4fc2"><img src="img/jst.jpg" alt=""></span><span style="--tint:#2c8f72"><img src="img/jst.jpg" alt=""></span><span style="--tint:#a32233"><img src="img/jst.jpg" alt=""></span>
+            <span style="--tint:#2a49c9"><img src="img/jst.jpg" alt=""></span><span style="--tint:#c9c3b7"><img src="img/jst.jpg" alt=""></span><span style="--tint:#b48a1c"><img src="img/jst.jpg" alt=""></span><span style="--tint:#2c8f72"><img src="img/jst.jpg" alt=""></span>
+            <span style="--tint:#a32233"><img src="img/jst.jpg" alt=""></span><span style="--tint:#2a49c9"><img src="img/jst.jpg" alt=""></span><span style="--tint:#7d4fc2"><img src="img/jst.jpg" alt=""></span><span style="--tint:#c9c3b7"><img src="img/jst.jpg" alt=""></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="night" id="inbox">
+    <div class="wrap">
+      <div class="shead">
+        <span class="num">04</span><h2>The inbox</h2><p>What people ask a 16-year-old who posts his PnL.</p>
+        <a class="all" href="https://x.com/jst1murs/status/2113848742239473738" target="_blank" rel="noopener">See the post &rarr;</a>
+      </div>
+      <div class="inbox">
+        <div class="ncard">
+          <div class="mono"><span class="dot"></span>Last screenshot · Oct 24<br>8 messages in one inbox</div>
+          <h3>"whats good G can u drop ur Strat"</h3>
+          <div class="bars" id="bars" role="img" aria-label="Views on his last 19 posts, oldest to newest. The highest is 75,814 on Oct 2."></div>
+          <div class="bars-cap mono"><span>Sep 27</span><span>Views, last 19 posts</span><span>Oct 29</span></div>
+          <div class="total"><span class="mono">Total views</span><b id="total">167,733</b></div>
+        </div>
+        <div class="dms" aria-label="Messages from the screenshot">
+          <div class="dm">can I get 10 sol and trade with u<small>Asks for SOL</small></div>
+          <div class="dm">slide me a sol twin<small>Asks for SOL</small></div>
+          <div class="dm">can u teach me how to make 1 million doll with the memecoin<small>Asks for the strat</small></div>
+          <div class="dm">whats good G can u drop ur Strat<small>Asks for the strat</small></div>
+          <div class="dm">im not a scammer pls 1 sol?<small>Asks for SOL</small></div>
+          <div class="dm">hey are u down for a terminal pump deal ?<small>Offers a deal</small></div>
+        </div>
+        <div class="ncard">
+          <div class="mono">What they want</div>
+          <div class="split">
+            <div class="opt"><b>A</b><span class="meter"><i style="width:38%"></i></span><span class="pct">38%</span><span class="what">Free SOL (3 of 8)</span></div>
+            <div class="opt"><b>B</b><span class="meter"><i style="width:25%"></i></span><span class="pct">25%</span><span class="what">The strategy (2 of 8)</span></div>
+            <div class="opt"><b>C</b><span class="meter"><i style="width:25%"></i></span><span class="pct">25%</span><span class="what">Just "?" (2 of 8)</span></div>
+            <div class="opt"><b>D</b><span class="meter"><i style="width:12.5%"></i></span><span class="pct">13%</span><span class="what">A paid pump deal (1 of 8)</span></div>
+          </div>
+          <div class="split-foot mono">His answer: "Bro?"</div>
+        </div>
+        <div class="ncard spoke">
+          <div class="pic"><img src="img/jst.jpg" alt="Jst's profile picture"></div>
+          <div class="txt">
+            <div class="mono">Said it best</div>
+            <div class="who">Jst <span>@jst1murs</span></div>
+            <blockquote>"not many ppl get's this but it dont matter how much i make, i still need to do better."</blockquote>
+            <a class="btn small" href="https://x.com/jst1murs/status/2104288606906917133" target="_blank" rel="noopener">View post <span class="arr">&rarr;</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="posts">
+    <div class="wrap">
+      <div class="shead">
+        <span class="num">05</span><h2>Recent posts</h2><p>What he posted, and how many people saw it.</p>
+        <a class="all" href="https://x.com/jst1murs" target="_blank" rel="noopener">Open X &rarr;</a>
+      </div>
+      <div class="tabs" role="toolbar" aria-label="Filter posts">
+        <button type="button" id="f-all" data-f="all" aria-pressed="true">All</button>
+        <button type="button" id="f-pnl" data-f="pnl" aria-pressed="false">PnL</button>
+        <button type="button" id="f-chart" data-f="chart" aria-pressed="false">Charts</button>
+        <button type="button" id="f-words" data-f="words" aria-pressed="false">Words</button>
+        <button type="button" id="f-video" data-f="video" aria-pressed="false">Video</button>
+      </div>
+      <div class="posts" id="postList"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="row1">
+      <a class="mark" href="#top">JST</a>
+      <span class="tagline mono muted">A trading journal from the trenches</span>
+      <nav aria-label="Footer">
+        <a href="#receipts">Receipts</a><a href="#rules">Rules</a><a href="#inbox">Inbox</a><a href="#posts">Posts</a>
+        <a href="https://x.com/jst1murs" target="_blank" rel="noopener">X</a>
+      </nav>
+    </div>
+    <p>Everything on this page comes from Jst's own public posts on X, and the figures are the ones he shared. Memecoins are extremely risky and most traders lose money. Nothing here is financial advice, and Jst will not send you SOL.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // views on the last 19 posts, oldest first (from his X timeline, Oct 29 2026)
+  var views = [1767, 2044, 3281, 10002, 2460, 1955, 2219, 75814, 2156, 19305, 5381, 9983, 1672, 1523, 1573, 22405, 3285, 416, 492];
+  var max = Math.max.apply(null, views), bars = document.getElementById("bars"), sum = 0;
+  views.forEach(function (v) {
+    sum += v;
+    var i = document.createElement("i");
+    i.style.height = Math.max(3, Math.round(Math.sqrt(v / max) * 100)) + "%";
+    if (v === max) i.className = "hi";
+    i.title = v.toLocaleString("en-US") + " views";
+    bars.appendChild(i);
+  });
+  document.getElementById("total").textContent = sum.toLocaleString("en-US");
+
+  var C = { pnl: "#2bd6a2", chart: "#5b7cf0", words: "#c9a227", video: "#ef6b78" };
+  var L = { pnl: "PnL", chart: "Chart", words: "Words", video: "Video" };
+  var posts = [
+    { id: "2113013705252442160", d: "Oct 21", k: "words", t: "6 figs yay! lets goo!!\n7figs at 16 next.", s: "His most liked post: 647 likes.", v: 22405 },
+    { id: "2110893430297464939", d: "Oct 16", k: "pnl", t: "nice pt.2", s: "HODL again: +601.1 SOL, +4,519%.", v: 9983, fig: "+601" },
+    { id: "2107222406548881917", d: "Oct 5", k: "pnl", t: "not satisfied, still gotta do better.", s: "+60.8 SOL realised in one day.", v: 5381, img: "img/r-day.png" },
+    { id: "2107171835590697366", d: "Oct 5", k: "chart", t: "nice", s: "HODL from the first candle: +2,505%, then +332% on the exit.", v: 19305, img: "img/r-hodl-exit.jpg" },
+    { id: "2105829287102169126", d: "Oct 2", k: "video", t: "A clip, and his most viewed post", s: "No caption. 733 likes.", v: 75814 },
+    { id: "2105635103229555119", d: "Oct 1", k: "words", t: "New month new blessings, let's get it.", s: "The first of October.", v: 1955 },
+    { id: "2105445207462293579", d: "Sep 30", k: "chart", t: "PRLS: in at 1.999, out at 4.293", s: "No caption, just the trade panel. +2.294 SOL.", v: 10002, img: "img/r-prls.png" },
+    { id: "2105416525024989503", d: "Sep 30", k: "pnl", t: "+535sol (65k) for september at 16yo.\nalhamdulillah for everything, more to come.", s: "The month, in one card.", v: 3281, img: "img/r-september.png" },
+    { id: "2104288606906917133", d: "Sep 27", k: "words", t: "it dont matter how much i make, i still need to do better.", s: "\"not many ppl get's this\"", v: 2044 }
+  ];
+  var list = document.getElementById("postList");
+  function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function render(f) {
+    var rows = posts.filter(function (p) { return f === "all" || p.k === f; });
+    list.innerHTML = rows.length ? rows.map(function (p) {
+      var th = p.img ? '<div class="thumb"><img src="' + p.img + '" alt="" loading="lazy"></div>'
+        : p.k === "video" ? '<div class="thumb vid">&#9654; Clip</div>'
+        : p.fig ? '<div class="thumb vid" style="font-family:var(--f-display);font-size:24px;letter-spacing:0">' + p.fig + '</div>'
+        : '<div class="thumb txt">&ldquo;</div>';
+      return '<a class="post" href="https://x.com/jst1murs/status/' + p.id + '" target="_blank" rel="noopener">' + th +
+        '<div><div class="meta"><span>' + p.d + '</span><span class="tag" style="--c:' + C[p.k] + '">' + L[p.k] + '</span></div>' +
+        '<h3>' + esc(p.t) + '</h3><p class="sub">' + esc(p.s) + '</p>' +
+        '<div class="stats">' + p.v.toLocaleString("en-US") + ' views</div></div>' +
+        '<div class="end"><span class="go" aria-hidden="true">&rarr;</span></div></a>';
+    }).join("") : '<div class="empty">No posts of this kind yet.</div>';
+  }
+  var btns = document.querySelectorAll(".tabs button");
+  btns.forEach(function (b) {
+    b.addEventListener("click", function () {
+      btns.forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render(b.dataset.f);
+    });
+  });
+  render("all");
+})();
+</script>
+</body>
+</html>
